@@ -1,0 +1,17 @@
+{
+  "name": "lesson5",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "invoker",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.1",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.4",
+    "superagent": "^4.0.0"
+  }
+}
