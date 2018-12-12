@@ -1,21 +1,21 @@
 // https://polar-mountain-34918.herokuapp.com/
 
-var async = require('async');
-var cheerio = require('cheerio');
-var superagent = require('superagent');
-var URL = require('url');
-var express = require('express');
+const async = require('async');
+const cheerio = require('cheerio');
+const superagent = require('superagent');
+const URL = require('url');
+const express = require('express');
 
-var app = express();
+const app = express();
 
-var cnodeUrl = 'https://cnodejs.org/';
+const cnodeUrl = 'https://cnodejs.org/';
 // 最大并发数
-var CONCURRENCY_COUNT = 5;
+const CONCURRENCY_COUNT = 3;
 var RESULT = 'Wait a minute...';
 
 // 获取主题url
-var getTopicUrls = (callback) => {
-    var topicUrls = [];
+const getTopicUrls = (callback) => {
+    let topicUrls = [];
 
     superagent.get(cnodeUrl)
         .end((err, res) => {
@@ -37,7 +37,7 @@ var getTopicUrls = (callback) => {
 var concurrencyCount = 0;
 
 // 对单个url进行抓取
-var fetchUrl = (url, callback) => {
+const fetchUrl = (url, callback) => {
     concurrencyCount++;
     console.log(`现在的并发数是${concurrencyCount}，正在抓取的是${url}`);
     async.waterfall([
@@ -53,7 +53,7 @@ var fetchUrl = (url, callback) => {
 };
 
 // 抓取主题页
-var fetchTopicUrl = (url, callback) => {
+const fetchTopicUrl = (url, callback) => {
 
     superagent.get(url)
         .end((err, res) => {
@@ -72,7 +72,7 @@ var fetchTopicUrl = (url, callback) => {
 };
 
 // 抓取用户页
-var fetchUserUrl = (topicContent, callback) => {
+const fetchUserUrl = (topicContent, callback) => {
 
     let userHref = topicContent.userHref;
 
@@ -104,7 +104,7 @@ var fetchUserUrl = (topicContent, callback) => {
 };
 
 // 对url列表进行抓取
-var fetchUrls = (topicUrls, callback) => {
+const fetchUrls = (topicUrls, callback) => {
     async.mapLimit(topicUrls, CONCURRENCY_COUNT, (url, cb) => {
         fetchUrl(url, cb);
     }, (err, result) => {
@@ -112,7 +112,7 @@ var fetchUrls = (topicUrls, callback) => {
     });
 };
 
-var fetch = function () {
+const fetch = function () {
     async.waterfall([
         getTopicUrls,
         fetchUrls
@@ -137,3 +137,5 @@ app.listen(process.env.PORT || 3000, () => {
     console.log(`app is running at port ${port}`);
     fetch();
 });
+
+module.exports = app;
