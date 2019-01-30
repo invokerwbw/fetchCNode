@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <script src="/javascripts/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div v-if="results!=='Wait a minute...'">
+            <el-table :data="results" style="width: 100%">
+                <el-table-column prop="title" label="title" width="180">
+                </el-table-column>
+                <el-table-column prop="comment1" label="comment1" width="180">
+                </el-table-column>
+                <el-table-column prop="author1" label="author1">
+                </el-table-column>
+                <el-table-column prop="score1" label="score1">
+                </el-table-column>
+            </el-table>
+        </div>
+        <p v-else>{{ results }}</p>
+    </div>
+</body>
+
+</html>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            results: []
+        },
+        created: function () {
+            axios.get('/')
+                .then(function (response) {
+                    app.results = response.data;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    })
+</script>
