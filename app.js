@@ -127,10 +127,6 @@ app.get('/lulu.html', (request, response) => {
   response.sendFile(path.join(__dirname, '/', 'lulu.html'));
 });
 
-app.get('/heart.html', (request, response) => {
-  response.sendFile(path.join(__dirname, '/', 'heart.html'));
-});
-
 app.get('/', (request, response) => {
   response.send(RESULT);
 });
